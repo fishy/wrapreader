@@ -3,7 +3,9 @@
 
 # WrapReader
 
-WrapReader provides an [`io.ReadCloser`](https://godoc.org/io#ReadCloser)
+WrapReader is a [Go](https://golang.org)
+[library](https://godoc.org/github.com/fishy/wrapreader).
+It provides an [`io.ReadCloser`](https://godoc.org/io#ReadCloser)
 that wraps an [`io.Reader`](https://godoc.org/io#Reader) and
 an [`io.Closer`](https://godoc.org/io#Closer) together.
 
