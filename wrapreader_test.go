@@ -79,6 +79,7 @@ func TestCloseBoth(t *testing.T) {
 }
 
 func ExampleWrap() {
+	os.Chdir(os.TempDir())
 	filename := "_test.gz"
 	content := "Hello, world!"
 	defer os.Remove(filename)
