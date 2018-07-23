@@ -86,23 +86,31 @@ func ExampleWrap() {
 
 	f, err := os.Create(filename)
 	if err != nil {
-		// TODO: handle error
+		// TODO: handle error properly
+		panic(err)
 	}
 	writer := gzip.NewWriter(f)
-	_, err = writer.Write([]byte(content))
-	if err != nil {
-		// TODO: handle error
-	}
-	writer.Close()
-	f.Close()
+	func() {
+		defer func() {
+			writer.Close()
+			f.Close()
+		}()
+		_, err = writer.Write([]byte(content))
+		if err != nil {
+			// TODO: handle error properly
+			panic(err)
+		}
+	}()
 
 	f, err = os.Open(filename)
 	if err != nil {
-		// TODO: handle error
+		// TODO: handle error properly
+		panic(err)
 	}
 	reader, err := gzip.NewReader(f)
 	if err != nil {
-		// TODO: handle error
+		// TODO: handle error properly
+		panic(err)
 	}
 	readCloser := wrapreader.Wrap(reader, f)
 	// readCloser.Close() will close both f and reader
@@ -110,7 +118,8 @@ func ExampleWrap() {
 	// Read from readCloser is actually read from reader
 	read, err := ioutil.ReadAll(readCloser)
 	if err != nil {
-		// TODO: handle error
+		// TODO: handle error properly
+		panic(err)
 	}
 	fmt.Println(string(read))
 	// Output:
