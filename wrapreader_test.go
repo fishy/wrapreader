@@ -4,6 +4,7 @@ import (
 	"compress/gzip"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"testing"
@@ -86,8 +87,7 @@ func ExampleWrap() {
 
 	f, err := os.Create(filename)
 	if err != nil {
-		// TODO: handle error properly
-		panic(err)
+		log.Fatal(err)
 	}
 	writer := gzip.NewWriter(f)
 	func() {
@@ -97,20 +97,17 @@ func ExampleWrap() {
 		}()
 		_, err = writer.Write([]byte(content))
 		if err != nil {
-			// TODO: handle error properly
-			panic(err)
+			log.Fatal(err)
 		}
 	}()
 
 	f, err = os.Open(filename)
 	if err != nil {
-		// TODO: handle error properly
-		panic(err)
+		log.Fatal(err)
 	}
 	reader, err := gzip.NewReader(f)
 	if err != nil {
-		// TODO: handle error properly
-		panic(err)
+		log.Fatal(err)
 	}
 	readCloser := wrapreader.Wrap(reader, f)
 	// readCloser.Close() will close both f and reader
@@ -118,8 +115,7 @@ func ExampleWrap() {
 	// Read from readCloser is actually read from reader
 	read, err := ioutil.ReadAll(readCloser)
 	if err != nil {
-		// TODO: handle error properly
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Println(string(read))
 	// Output:
